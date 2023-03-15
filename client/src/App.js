@@ -1,13 +1,11 @@
+// import { Routes } from 'react-router-dom'
 import './App.css'
+import AppRouter from './components/AppRouter'
 
 const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        hi
-      </header>
-    </div>
-  );
+      <AppRouter />
+  )
 }
 
 export default App

@@ -14,10 +14,10 @@ module.exports = function(role) {
             if (decoded.role !== role) {
                 return res.status(403).json({message: "No access"})
             }
-            req.user = decoded;
+            req.user = decoded
             next()
         } catch (e) {
             res.status(401).json({message: "Not authorized"})
         }
-    };
+    }
 }
