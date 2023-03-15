@@ -30,6 +30,16 @@ class DeviceController {
 
     }
 
+    async delete(req, res) {
+        const {id} = req.params
+        try {
+            await Device.destroy({ where: {id} })
+            res.status(200).send('Removed Successfully')
+        } catch (e) {
+            next(ApiError.badRequest(e.message))
+        }
+    }
+
     async getAll(req, res) {
         let {brandId, typeId, limit, page} = req.query
         page = page || 1
