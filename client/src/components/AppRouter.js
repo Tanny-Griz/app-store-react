@@ -16,7 +16,7 @@ const AppRouter = () => {
         <Route key={path} path={path} element={ <Component/> } exact />
       )}
       <Route
-        path="*"
+        path='*'
         element={<Navigate to={SHOP_ROUTE} replace />}
       />
     </Routes>
