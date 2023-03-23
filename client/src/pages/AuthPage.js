@@ -1,16 +1,39 @@
-import React from 'react'
+import React, {useState, useContext} from 'react'
 import Container from 'react-bootstrap/Container'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/esm/Button'
 import Row from 'react-bootstrap/esm/Row'
 import Col from 'react-bootstrap/esm/Col'
 import Card from 'react-bootstrap/esm/Card'
-import { NavLink, useLocation } from 'react-router-dom'
-import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from '../utils/consts'
+import { registration, login } from '../http/userAPI'
+import { observer } from 'mobx-react-lite'
+import { Context } from '../index'
 
-const AuthPage = () => {
+const AuthPage = observer(() => {
+  const {user} = useContext(Context)
   const location = useLocation()
+  const history = useNavigate()
   const isLogin = location.pathname === LOGIN_ROUTE
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const click = async () => {
+    try {
+      let userData
+      if (isLogin) {
+        userData = await login(email, password)
+      } else {
+        userData = await registration(email, password)
+      }
+      user.setUser(userData)
+      user.setIsAuth(true)
+      history(SHOP_ROUTE)
+    } catch (e) {
+      console.log(e.response.data.message)
+    }
+  }
   return (
     <Container>
       <Row xs={1} md={2}>
@@ -20,42 +43,49 @@ const AuthPage = () => {
               <h2 className='text-center'>
                 {isLogin ? 'Authorization' : 'Registration'}
               </h2>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Form.Group className='mb-3' controlId='formBasicEmail'>
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" />
-                <Form.Text className="text-muted">
+                <Form.Control
+                  onChange={e => setEmail(e.target.value)}
+                  type='email'
+                  value={email}
+                  placeholder='Enter email' />
+                <Form.Text className='text-muted'>
                 ...
                 </Form.Text>
               </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Group className='mb-3' controlId='formBasicPassword'>
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control
+                  onChange={e => setPassword(e.target.value)}
+                  type='password'
+                  value={password}
+                  placeholder='Password' />
               </Form.Group>
-              {isLogin
-                ? <div className='d-flex justify-content-between'>
-                  <p>
-                No account? <NavLink to={REGISTRATION_ROUTE}>register</NavLink>
-                  </p>
-                  <Button className='align-self-end' variant="outline-success" type="submit">
-                Log in
-                  </Button>
-                </div>
-                : <div className='d-flex justify-content-between'>
-                  <p>
-                Have an account? <NavLink to={LOGIN_ROUTE}>Log in</NavLink>
-                  </p>
-                  <Button className='align-self-end' variant="outline-success" type="submit">
-                Sign up
-                  </Button>
-                </div>
-              }
+              <Row className='d-flex justify-content-between mt-3 pl-3 pr-3'>
+                {isLogin
+                  ? <div>
+                    No account? <NavLink to={REGISTRATION_ROUTE}>Sign up!</NavLink>
+                  </div>
+                  : <div>
+                    Have an account? <NavLink to={LOGIN_ROUTE}>Log in!</NavLink>
+                  </div>
+                }
+                <Button
+                  className='mt-3'
+                  variant={'outline-success'}
+                  onClick={click}
+                >
+                  {isLogin ? 'Log in' : 'Sign up'}
+                </Button>
+              </Row>
             </Form>
           </Card>
         </Col>
       </Row>
     </Container>
   )
-}
+})
 
 export default AuthPage

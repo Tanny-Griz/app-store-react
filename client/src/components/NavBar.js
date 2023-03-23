@@ -5,26 +5,32 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 // import NavDropdown from 'react-bootstrap/NavDropdown'
 import { observer } from 'mobx-react-lite'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/esm/Button'
-import { ADMIN_ROUTE, LOGIN_ROUTE } from '../utils/consts'
+import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts'
 
 const NavBar = observer(() => {
   const {user} = useContext(Context)
   const history = useNavigate()
+
+  const logOut = () => {
+    user.setUser({})
+    user.setIsAuth(false)
+  }
+
   return (
     <Navbar bg='light' expand='lg' className='mb-4 py-3'>
       <Container>
-        <Navbar.Brand href='#home'>OShop</Navbar.Brand>
+        <Navbar.Brand type='button' onClick={() => history(SHOP_ROUTE)}>OShop</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           {user.isAuth
             ? <Nav className='ms-auto'>
-              <Button onClick={() => history(ADMIN_ROUTE)}>Admin panel</Button>
-              <Button onClick={() => history(LOGIN_ROUTE)}>Log out</Button>
+              <Button className='btn-light' onClick={() => history(ADMIN_ROUTE)}>Admin panel</Button>
+              <Button className='btn-light' onClick={() => logOut()}>Log out</Button>
             </Nav>
             : <Nav className='ms-auto'>
-              <Button className='btn-light' onClick={() => user.setIsAuth(true)}>Sign up</Button>
+              <Button className='btn-light' onClick={() => history(LOGIN_ROUTE)}>Sign up</Button>
             </Nav>
           }
         </Navbar.Collapse>
