@@ -16,7 +16,7 @@ const DeviceItem = ({device}) => {
         <Card.Body>
           <Card.Title>{device.name}</Card.Title>
           <Card.Text>
-            123
+            Text
           </Card.Text>
           {/* <Button variant='primary'>Go somewhere</Button> */}
         </Card.Body>

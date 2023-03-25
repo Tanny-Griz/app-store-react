@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/esm/Row'
 
 const DeviceList = observer(() => {
   const {device} = useContext(Context)
-  console.log(device)
+
   return (
     <Row>
       {device.devices.map(device =>

@@ -8,6 +8,7 @@ import TypeBar from '../components/TypeBar'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../index'
 import {fetchBrands, fetchDevices, fetchTypes} from '../http/deviceAPI'
+import PagePagination from '../components/PagePagination'
 
 const ShopPage = observer(() => {
   const {device} = useContext(Context)
@@ -15,11 +16,19 @@ const ShopPage = observer(() => {
   useEffect(() => {
     fetchTypes().then(data => device.setTypes(data))
     fetchBrands().then(data => device.setBrands(data))
-    fetchDevices(null, null, 1, 2).then(data => {
+    fetchDevices(null, null, 1, 4).then(data => {
       device.setDevices(data.rows)
       device.setTotalCount(data.count)
     })
   }, [])
+
+  useEffect(() => {
+    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 4).then(data => {
+      device.setDevices(data.rows)
+      device.setTotalCount(data.count)
+    })
+  }, [device.page, device.selectedType, device.selectedBrand])
+
   return (
     <Container>
       <Row>
@@ -29,6 +38,7 @@ const ShopPage = observer(() => {
         <Col md={9}>
           <BrandBar />
           <DeviceList />
+          <PagePagination />
         </Col>
       </Row>
     </Container>

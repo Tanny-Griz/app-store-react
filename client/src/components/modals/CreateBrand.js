@@ -7,7 +7,7 @@ const CreateBrand = ({show, onHide}) => {
   const [value, setValue] = useState('')
 
   const addBrand = () => {
-    createBrand({name: value}).then(data => {
+    createBrand({name: value}).then(() => { //
       setValue('')
       onHide()
     })
