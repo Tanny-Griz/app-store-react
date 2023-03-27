@@ -102,31 +102,32 @@ const CreateDevice = observer(({show, onHide}) => {
           <Button
             variant={'outline-dark'}
             onClick={addInfo}
+            className='mb-3'
           >
             Add new property
           </Button>
           {info.map(i =>
             <Row className='mb-4' key={i.number}>
-              <Col md={4}>
+              <Col md={5}>
                 <Form.Control
                   value={i.title}
                   onChange={(e) => changeInfo('title', e.target.value, i.number)}
-                  placeholder='Enter property name'
+                  placeholder='Property name'
                 />
               </Col>
-              <Col md={4}>
+              <Col md={5}>
                 <Form.Control
                   value={i.description}
                   onChange={(e) => changeInfo('description', e.target.value, i.number)}
-                  placeholder='Enter a property description'
+                  placeholder='Property description'
                 />
               </Col>
-              <Col md={4}>
+              <Col md={2}>
                 <Button
                   onClick={() => removeInfo(i.number)}
                   variant={'outline-danger'}
                 >
-                  Delete
+                  &#9746;
                 </Button>
               </Col>
             </Row>

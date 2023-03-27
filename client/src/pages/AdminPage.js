@@ -14,21 +14,21 @@ const AdminPage = () => {
     <Container>
       <Button
         variant={'outline-dark'}
-        className='p-2'
+        className='p-2 me-3'
         onClick={() => setTypeVisible(true)}
       >
         Add Type
       </Button>
       <Button
         variant={'outline-dark'}
-        className='p-2'
+        className='p-2 me-3'
         onClick={() => setBrandVisible(true)}
       >
         Add Brand
       </Button>
       <Button
         variant={'outline-dark'}
-        className='p-2'
+        className='p-2 me-3'
         onClick={() => setDeviceVisible(true)}
       >
         Add Device
