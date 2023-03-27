@@ -6,13 +6,13 @@ import Card from 'react-bootstrap/esm/Card'
 const BrandBar = observer(() => {
   const {device} = useContext(Context)
   return (
-    <div className='d-flex flex-wrap mb-4'>
+    <div className='d-flex flex-wrap mb-4 mt-4'>
       {device.brands.map(brand =>
         <Card
           style={{cursor: 'pointer'}}
           className='p-2 me-3'
           onClick={() => device.setSelectedBrand(brand)}
-          border={brand.id === device.selectedBrand.id ? 'success' : 'light'}
+          border={brand.id === device.selectedBrand.id ? 'gray' : 'light'}
           key={brand.id}>
           {brand.name}
         </Card>

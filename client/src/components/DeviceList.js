@@ -8,11 +8,13 @@ const DeviceList = observer(() => {
   const {device} = useContext(Context)
 
   return (
-    <Row>
-      {device.devices.map(device =>
-        <DeviceItem key={device.id} device={device} />
-      )}
-    </Row>
+    <div className='device-wrapper'>
+      <Row>
+        {device.devices.map(device =>
+          <DeviceItem key={device.id} device={device} />
+        )}
+      </Row>
+    </div>
   )
 })
 

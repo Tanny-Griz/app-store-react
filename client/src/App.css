@@ -2,6 +2,13 @@
   box-sizing: border-box;
 }
 
+img {
+  max-width: 100%;
+  display: inline-block;
+  height: 100%;
+  vertical-align: top;
+}
+
 #root {
   margin: 0;
   display: flex;
@@ -9,7 +16,91 @@
   min-height: 100vh;
 }
 
+.nav-btn {
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.nav-btn:hover {
+  border-bottom: 3px solid #696969;
+}
+
 main {
+  flex-grow: 1;
+}
+
+.shop-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 168px);
+}
+
+.device-wrapper {
+  flex-grow: 1;
+}
+
+.list-group-item:hover {
+  background-color: #e1e1e1;
+}
+
+.list-group-item.active {
+  background-color: #e1e1e1;
+  border-color: rgba(0, 0, 0, 0.125);
+  color: black;
+}
+
+.page-link {
+  color: black;
+}
+
+.page-link:hover {
+  color: #696969;
+}
+
+.active>.page-link, .page-link.active {
+  color: white;
+  background-color: #696969;
+  border-color: #696969;
+}
+
+.device-card {
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  overflow: hidden;
+  min-height: 100%;
+  padding: 1rem;
+  transition: box-shadow 0.3s;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+}
+
+.device-card:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.device-card-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  height: 120px;
+}
+
+.device-card-text {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-bottom: 1rem;
+}
+
+.device-card h4 {
+  font-size: 18px;
+}
+
+.device-card-text {
   flex-grow: 1;
 }
 

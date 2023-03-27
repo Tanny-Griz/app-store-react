@@ -25,11 +25,11 @@ const NavBar = observer(() => {
         <Navbar.Collapse id='basic-navbar-nav'>
           {user.isAuth
             ? <Nav className='ms-auto'>
-              <Button className='btn-light' onClick={() => history(ADMIN_ROUTE)}>Admin panel</Button>
-              <Button className='btn-light' onClick={() => logOut()}>Log out</Button>
+              <div className='nav-btn text-center px-3 py-1' onClick={() => history(ADMIN_ROUTE)}>Admin panel</div>
+              <div className='nav-btn text-center px-3 py-1' onClick={() => logOut()}>Log out</div>
             </Nav>
             : <Nav className='ms-auto'>
-              <Button className='btn-light' onClick={() => history(LOGIN_ROUTE)}>Sign up</Button>
+              <Button variant="link" onClick={() => history(LOGIN_ROUTE)}>Sign up</Button>
             </Nav>
           }
         </Navbar.Collapse>

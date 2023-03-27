@@ -35,7 +35,7 @@ const ShopPage = observer(() => {
         <Col md={3}>
           <TypeBar />
         </Col>
-        <Col md={9}>
+        <Col className='shop-wrapper' md={9}>
           <BrandBar />
           <DeviceList />
           <PagePagination />
