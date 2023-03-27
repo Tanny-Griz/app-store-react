@@ -14,9 +14,9 @@ const DeviceItem = ({device}) => {
           <img src={process.env.REACT_APP_API_URL + device.img}></img>
         </div>
         <div className='device-card-text'>
-          <h4>{device.name}</h4>
-          <p>
-            Text
+          <h4 className='mb-3'>{device.name}</h4>
+          <p className='text-end text-success mb-0 price'>
+            <b>{device.price} $</b>
           </p>
           {/* <Button variant='primary'>Go somewhere</Button> */}
         </div>

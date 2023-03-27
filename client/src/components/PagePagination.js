@@ -8,7 +8,7 @@ const PagePagination = observer(() => {
   const pageCount = Math.ceil(device.totalCount / device.limit)
   const pages = []
 
-  for (let i = 1; i < pageCount; i++) {
+  for (let i = 1; i <= pageCount; i++) {
     pages.push(
       <Pagination.Item
         key={i}

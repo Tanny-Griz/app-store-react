@@ -9,7 +9,7 @@ export default class DeviceStore {
     this._selectedBrand = {}
     this._page = 1
     this._totalCount = 0
-    this._limit = 3
+    this._limit = 9
     makeAutoObservable(this)
   }
 
@@ -22,7 +22,6 @@ export default class DeviceStore {
   setDevices (devices) {
     this._devices = devices
   }
-
   setSelectedType (type) {
     this.setPage(1)
     this._selectedType = type
