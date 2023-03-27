@@ -5,7 +5,6 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { observer } from 'mobx-react-lite'
 import { useNavigate } from 'react-router-dom'
-import Button from 'react-bootstrap/esm/Button'
 import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts'
 
 const NavBar = observer(() => {
@@ -29,7 +28,7 @@ const NavBar = observer(() => {
               <div className='nav-btn text-center px-3 py-1' onClick={() => logOut()}>Log out</div>
             </Nav>
             : <Nav className='ms-auto'>
-              <Button variant="link" onClick={() => history(LOGIN_ROUTE)}>Sign up</Button>
+              <div className='nav-btn text-center px-3 py-1' onClick={() => history(LOGIN_ROUTE)}>Sign up</div>
             </Nav>
           }
         </Navbar.Collapse>
