@@ -10,6 +10,7 @@ import { LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from '../utils/consts'
 import { registration, login } from '../http/userAPI'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../index'
+import { emailRegex } from '../utils/regexp'
 
 const AuthPage = observer(() => {
   const {user} = useContext(Context)
@@ -17,21 +18,26 @@ const AuthPage = observer(() => {
   const history = useNavigate()
   const isLogin = location.pathname === LOGIN_ROUTE
   const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
   const [password, setPassword] = useState('')
 
   const click = async () => {
-    try {
-      let userData
-      if (isLogin) {
-        userData = await login(email, password)
-      } else {
-        userData = await registration(email, password)
+    if (emailRegex.test(email)) {
+      try {
+        let userData
+        if (isLogin) {
+          userData = await login(email, password)
+        } else {
+          userData = await registration(email, password)
+        }
+        user.setUser(userData)
+        user.setIsAuth(true)
+        history(SHOP_ROUTE)
+      } catch (e) {
+        setError(e.response.data.message)
       }
-      user.setUser(userData)
-      user.setIsAuth(true)
-      history(SHOP_ROUTE)
-    } catch (e) {
-      console.log(e.response.data.message)
+    } else {
+      setError('Please enter a valid email!')
     }
   }
   return (
@@ -72,6 +78,10 @@ const AuthPage = observer(() => {
                     Have an account? <NavLink to={LOGIN_ROUTE}>Log in!</NavLink>
                   </div>
                 }
+                {/* <p>
+                  Use email: <b>test_admin@gmail.com </b> and password: <b>12345</b> to login as admin
+                </p> */}
+                <p className='text-danger'>{error || ''}</p>
                 <Button
                   className='mt-3'
                   variant={'outline-success'}

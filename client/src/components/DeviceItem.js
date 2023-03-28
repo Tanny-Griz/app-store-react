@@ -15,7 +15,7 @@ const DeviceItem = ({device}) => {
         </div>
         <div className='device-card-text'>
           <h4 className='mb-3'>{device.name}</h4>
-          <p className='text-end text-success mb-0 price'>
+          <p className='text-end text-success price'>
             <b>{device.price} $</b>
           </p>
           {/* <Button variant='primary'>Go somewhere</Button> */}

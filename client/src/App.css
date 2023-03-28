@@ -9,6 +9,10 @@ img {
   vertical-align: top;
 }
 
+p {
+  margin: 0;
+}
+
 #root {
   margin: 0;
   display: flex;
@@ -109,6 +113,10 @@ main {
   position: absolute;
   bottom: 5px;
   right: 5px;
+}
+
+.device-page-img-holder {
+  height: 300px;
 }
 
 footer {
