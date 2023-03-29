@@ -11,7 +11,7 @@ class TypeController {
     async delete(req, res, next) {
         const {name} = req.body
         try {
-            await Type.destroy({ where: name })
+            await Type.destroy({ where: {name} })
             res.status(200).send('Removed Successfully')
         } catch (e) {
             next(ApiError.badRequest('Deleting data failed'))
