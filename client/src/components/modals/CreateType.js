@@ -1,9 +1,16 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Modal from 'react-bootstrap/Modal'
 import {Button, Form} from 'react-bootstrap'
 
-const CreateType = ({show, onHide, addType}) => {
-  const [value, setValue] = useState('')
+const CreateType = ({show, valueOfType, setValueOfType, onHide, errorTypeMessage, setErrorTypeMessage, addType}) => {
+  const onAddType = () => {
+    if (valueOfType) {
+      addType(valueOfType)
+      onHide()
+    } else {
+      setErrorTypeMessage('Name can`t be empty')
+    }
+  }
   return (
     <Modal
       show={show}
@@ -18,19 +25,16 @@ const CreateType = ({show, onHide, addType}) => {
       <Modal.Body>
         <Form>
           <Form.Control
-            value={value}
-            onChange={e => setValue(e.target.value)}
+            value={valueOfType}
+            onChange={e => setValueOfType(e.target.value)}
             placeholder={'input name of brand'}
           />
+          {errorTypeMessage && <p className='text-danger mt-2'>{errorTypeMessage}</p>}
         </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button variant='outline-danger' onClick={onHide}>Close</Button>
-        <Button variant='outline-success' onClick={() => {
-          addType(value)
-          setValue('')
-          onHide()
-        }}>Add</Button>
+        <Button variant='outline-success' onClick={() => onAddType()}>Add</Button>
       </Modal.Footer>
     </Modal>
   )

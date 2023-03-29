@@ -18,10 +18,17 @@ const AdminPage = observer(() => {
   const [typeVisible, setTypeVisible] = useState(false)
   const [deviceVisible, setDeviceVisible] = useState(false)
 
-  const addType = (valueOfType) => {
-    createType({name: valueOfType}).then(() => {
-      fetchTypes().then(data => device.setTypes(data))
-    })
+  const [valueOfType, setValueOfType] = useState('')
+  const [errorTypeMessage, setErrorTypeMessage] = useState('')
+
+  const addType = (value) => {
+    if (value) {
+      createType({name: value}).then(() => {
+        fetchTypes().then(data => device.setTypes(data))
+      })
+      setValueOfType('')
+    }
+    return
   }
 
   const onDeleteType = (valueOfType) => {
@@ -80,7 +87,17 @@ const AdminPage = observer(() => {
       </Tabs>
       <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)}/>
       <CreateDevice show={deviceVisible} onHide={() => setDeviceVisible(false)}/>
-      <CreateType show={typeVisible} addType={addType} onHide={() => setTypeVisible(false)}/>
+      <CreateType
+        show={typeVisible}
+        valueOfType={valueOfType}
+        addType={addType}
+        setValueOfType={setValueOfType}
+        errorTypeMessage={errorTypeMessage}
+        setErrorTypeMessage={setErrorTypeMessage}
+        onHide={() => {
+          setTypeVisible(false)
+          setErrorTypeMessage('')
+        }}/>
     </Container>
   )
 })
