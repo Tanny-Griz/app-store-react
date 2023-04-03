@@ -43,16 +43,20 @@ const AdminPage = observer(() => {
     return
   }
 
-  const onDeleteType = (valueOfType) => {
-    deleteType(valueOfType).then(() => {
-      fetchTypes().then(data => device.setTypes(data))
-    })
-  }
-
-  const onDeleteBrand = (valueOfBrand) => {
-    deleteBrand(valueOfBrand).then(() => {
-      fetchBrands().then(data => device.setBrands(data))
-    })
+  const deleteCategory = (value, category) => {
+    switch (category) {
+      case 'type':
+        deleteType(value).then(() => {
+          fetchTypes().then(data => device.setTypes(data))
+        })
+        break
+      case 'brand':
+        deleteBrand(value).then(() => {
+          fetchBrands().then(data => device.setBrands(data))
+        })
+        break
+      default: return
+    }
   }
 
   return (
@@ -63,8 +67,9 @@ const AdminPage = observer(() => {
         className="mb-3">
         <Tab eventKey="type" title="Type">
           <TableComponent
+            category={'type'}
             data={device.types}
-            onDelete={onDeleteType}
+            onDelete={deleteCategory}
           />
           <hr></hr>
           <Button
@@ -77,8 +82,9 @@ const AdminPage = observer(() => {
         </Tab>
         <Tab eventKey="brand" title="Brand">
           <TableComponent
+            category={'brand'}
             data={device.brands}
-            onDelete={onDeleteBrand}
+            onDelete={deleteCategory}
           />
           <Button
             variant={'outline-success'}

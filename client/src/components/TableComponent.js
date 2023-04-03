@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap'
 import Button from 'react-bootstrap/esm/Button'
 import { dateGenerate } from '../utils/dateGenerate'
 
-const TableComponent = ({data, onDelete}) => {
+const TableComponent = ({data, category, onDelete}) => {
   return (
     <Table striped bordered hover>
       <thead>
@@ -22,7 +22,7 @@ const TableComponent = ({data, onDelete}) => {
             <td>{dateGenerate(item.createdAt)}</td>
             <td className='text-end'>
               <Button
-                onClick={() => onDelete(item.name)}
+                onClick={() => onDelete(item.name, category)}
                 variant='danger'>Delete
               </Button>
             </td>
