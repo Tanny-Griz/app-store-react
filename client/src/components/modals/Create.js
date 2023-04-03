@@ -2,13 +2,13 @@ import React from 'react'
 import Modal from 'react-bootstrap/Modal'
 import {Button, Form} from 'react-bootstrap'
 
-const CreateType = ({show, valueOfType, setValueOfType, onHide, errorTypeMessage, setErrorTypeMessage, addType}) => {
-  const onAddType = () => {
-    if (valueOfType) {
-      addType(valueOfType)
+const Create = ({show, category, value, setValue, onHide, errorMessage, setErrorMessage, addCategory}) => {
+  const add = () => {
+    if (value) {
+      addCategory(value, category)
       onHide()
     } else {
-      setErrorTypeMessage('Name can`t be empty')
+      setErrorMessage('Name can`t be empty')
     }
   }
   return (
@@ -19,25 +19,25 @@ const CreateType = ({show, valueOfType, setValueOfType, onHide, errorTypeMessage
     >
       <Modal.Header closeButton>
         <Modal.Title id='contained-modal-title-vcenter'>
-          Add Type
+          Add {category}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Control
-            value={valueOfType}
-            onChange={e => setValueOfType(e.target.value)}
-            placeholder={'input name of brand'}
+            value={value}
+            onChange={e => setValue(e.target.value)}
+            placeholder={`input name of ${category}`}
           />
-          {errorTypeMessage && <p className='text-danger mt-2'>{errorTypeMessage}</p>}
+          {errorMessage && <p className='text-danger mt-2'>{errorMessage}</p>}
         </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button variant='outline-danger' onClick={onHide}>Close</Button>
-        <Button variant='outline-success' onClick={() => onAddType()}>Add</Button>
+        <Button variant='outline-success' onClick={() => add()}>Add</Button>
       </Modal.Footer>
     </Modal>
   )
 }
 
-export default CreateType
+export default Create

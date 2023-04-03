@@ -1,16 +1,14 @@
 import React, { useState, useContext } from 'react'
 import Button from 'react-bootstrap/esm/Button'
 import Container from 'react-bootstrap/esm/Container'
-import CreateBrand from '../components/modals/CreateBrand'
-import CreateType from '../components/modals/CreateType'
 import CreateDevice from '../components/modals/CreateDevice'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
-import Col from 'react-bootstrap/esm/Col'
-import Row from 'react-bootstrap/esm/Row'
+import TableComponent from '../components/TableComponent'
 import { observer } from 'mobx-react-lite'
 import { Context } from '..'
-import { deleteType, fetchTypes, createType } from '../http/deviceAPI'
+import { fetchTypes, createType, deleteType, createBrand, fetchBrands, deleteBrand } from '../http/deviceAPI'
+import Create from '../components/modals/Create'
 
 const AdminPage = observer(() => {
   const {device} = useContext(Context)
@@ -21,12 +19,26 @@ const AdminPage = observer(() => {
   const [valueOfType, setValueOfType] = useState('')
   const [errorTypeMessage, setErrorTypeMessage] = useState('')
 
-  const addType = (value) => {
+  const [valueOfBrand, setValueOfBrand] = useState('')
+  const [errorBrandMessage, setErrorBrandMessage] = useState('')
+
+  const addCategory = (value, category) => {
     if (value) {
-      createType({name: value}).then(() => {
-        fetchTypes().then(data => device.setTypes(data))
-      })
-      setValueOfType('')
+      switch (category) {
+        case 'type':
+          createType({name: value}).then(() => {
+            fetchTypes().then(data => device.setTypes(data))
+          })
+          setValueOfType('')
+          break
+        case 'brand':
+          createBrand({name: value}).then(() => {
+            fetchBrands().then(data => device.setBrands(data))
+          })
+          setValueOfBrand('')
+          break
+        default: return
+      }
     }
     return
   }
@@ -37,6 +49,12 @@ const AdminPage = observer(() => {
     })
   }
 
+  const onDeleteBrand = (valueOfBrand) => {
+    deleteBrand(valueOfBrand).then(() => {
+      fetchBrands().then(data => device.setBrands(data))
+    })
+  }
+
   return (
     <Container>
       <Tabs
@@ -44,19 +62,10 @@ const AdminPage = observer(() => {
         id="uncontrolled-tab-example"
         className="mb-3">
         <Tab eventKey="type" title="Type">
-          {device.types.map(type =>
-            <Row className='mb-3' key={type.id}>
-              <Col md={10}>
-                {type.name}
-              </Col>
-              <Col md={2} className='text-end'>
-                <Button
-                  onClick={() => onDeleteType(type.name)}
-                  variant='danger'>Delete
-                </Button>
-              </Col>
-            </Row>
-          )}
+          <TableComponent
+            data={device.types}
+            onDelete={onDeleteType}
+          />
           <hr></hr>
           <Button
             variant={'outline-success'}
@@ -67,8 +76,12 @@ const AdminPage = observer(() => {
           </Button>
         </Tab>
         <Tab eventKey="brand" title="Brand">
+          <TableComponent
+            data={device.brands}
+            onDelete={onDeleteBrand}
+          />
           <Button
-            variant={'outline-dark'}
+            variant={'outline-success'}
             className='p-2 me-3'
             onClick={() => setBrandVisible(true)}
           >
@@ -76,8 +89,9 @@ const AdminPage = observer(() => {
           </Button>
         </Tab>
         <Tab eventKey="device" title="Device">
+          <TableComponent data={device.devices} />
           <Button
-            variant={'outline-dark'}
+            variant={'outline-success'}
             className='p-2 me-3'
             onClick={() => setDeviceVisible(true)}
           >
@@ -85,19 +99,32 @@ const AdminPage = observer(() => {
           </Button>
         </Tab>
       </Tabs>
-      <CreateBrand show={brandVisible} onHide={() => setBrandVisible(false)}/>
-      <CreateDevice show={deviceVisible} onHide={() => setDeviceVisible(false)}/>
-      <CreateType
+      <Create
+        show={brandVisible}
+        category={'brand'}
+        value={valueOfBrand}
+        addCategory={addCategory}
+        setValue={setValueOfBrand}
+        errorMessage={errorBrandMessage}
+        setErrorMessage={setErrorBrandMessage}
+        onHide={() => {
+          setBrandVisible(false)
+          setErrorBrandMessage('')
+        }}
+      />
+      <Create
         show={typeVisible}
-        valueOfType={valueOfType}
-        addType={addType}
-        setValueOfType={setValueOfType}
-        errorTypeMessage={errorTypeMessage}
-        setErrorTypeMessage={setErrorTypeMessage}
+        category={'type'}
+        value={valueOfType}
+        addCategory={addCategory}
+        setValue={setValueOfType}
+        errorMessage={errorTypeMessage}
+        setErrorMessage={setErrorTypeMessage}
         onHide={() => {
           setTypeVisible(false)
           setErrorTypeMessage('')
         }}/>
+      <CreateDevice show={deviceVisible} onHide={() => setDeviceVisible(false)}/>
     </Container>
   )
 })
