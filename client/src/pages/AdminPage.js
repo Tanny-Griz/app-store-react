@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Button from 'react-bootstrap/esm/Button'
 import Container from 'react-bootstrap/esm/Container'
 import CreateDevice from '../components/modals/CreateDevice'
@@ -7,11 +7,19 @@ import Tab from 'react-bootstrap/Tab'
 import TableComponent from '../components/TableComponent'
 import { observer } from 'mobx-react-lite'
 import { Context } from '..'
-import { fetchTypes, createType, deleteType, createBrand, fetchBrands, deleteBrand } from '../http/deviceAPI'
+import { fetchTypes, fetchDevices, createType, deleteType, createBrand, fetchBrands, deleteBrand } from '../http/deviceAPI'
 import Create from '../components/modals/Create'
 
 const AdminPage = observer(() => {
   const {device} = useContext(Context)
+
+  useEffect(() => {
+    fetchDevices(null, null, 1, 20).then(data => {
+      device.setDevices(data.rows)
+      device.setTotalCount(data.count)
+    })
+  }, [])
+
   const [brandVisible, setBrandVisible] = useState(false)
   const [typeVisible, setTypeVisible] = useState(false)
   const [deviceVisible, setDeviceVisible] = useState(false)
@@ -25,13 +33,13 @@ const AdminPage = observer(() => {
   const addCategory = (value, category) => {
     if (value) {
       switch (category) {
-        case 'type':
+        case 'types':
           createType({name: value}).then(() => {
             fetchTypes().then(data => device.setTypes(data))
           })
           setValueOfType('')
           break
-        case 'brand':
+        case 'brands':
           createBrand({name: value}).then(() => {
             fetchBrands().then(data => device.setBrands(data))
           })
@@ -45,12 +53,12 @@ const AdminPage = observer(() => {
 
   const deleteCategory = (value, category) => {
     switch (category) {
-      case 'type':
+      case 'types':
         deleteType(value).then(() => {
           fetchTypes().then(data => device.setTypes(data))
         })
         break
-      case 'brand':
+      case 'brands':
         deleteBrand(value).then(() => {
           fetchBrands().then(data => device.setBrands(data))
         })
@@ -67,14 +75,14 @@ const AdminPage = observer(() => {
         className="mb-3">
         <Tab eventKey="type" title="Type">
           <TableComponent
-            category={'type'}
+            category={'types'}
             data={device.types}
             onDelete={deleteCategory}
           />
           <hr></hr>
           <Button
             variant={'outline-success'}
-            className='p-2 me-3 mb-3'
+            className='p-2 mb-3'
             onClick={() => setTypeVisible(true)}
           >
             Add Type
@@ -82,23 +90,27 @@ const AdminPage = observer(() => {
         </Tab>
         <Tab eventKey="brand" title="Brand">
           <TableComponent
-            category={'brand'}
+            category={'brands'}
             data={device.brands}
             onDelete={deleteCategory}
           />
           <Button
             variant={'outline-success'}
-            className='p-2 me-3'
+            className='p-2 mb-3'
             onClick={() => setBrandVisible(true)}
           >
           Add Brand
           </Button>
         </Tab>
         <Tab eventKey="device" title="Device">
-          <TableComponent data={device.devices} />
+          <TableComponent
+            category={'devices'}
+            data={device.devices}
+            brands={device.brands}
+          />
           <Button
             variant={'outline-success'}
-            className='p-2 me-3'
+            className='p-2 mb-3'
             onClick={() => setDeviceVisible(true)}
           >
             Add Device
@@ -107,7 +119,7 @@ const AdminPage = observer(() => {
       </Tabs>
       <Create
         show={brandVisible}
-        category={'brand'}
+        category={'brands'}
         value={valueOfBrand}
         addCategory={addCategory}
         setValue={setValueOfBrand}
@@ -120,7 +132,7 @@ const AdminPage = observer(() => {
       />
       <Create
         show={typeVisible}
-        category={'type'}
+        category={'types'}
         value={valueOfType}
         addCategory={addCategory}
         setValue={setValueOfType}
