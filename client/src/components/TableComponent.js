@@ -3,8 +3,11 @@ import { Table } from 'react-bootstrap'
 import Button from 'react-bootstrap/esm/Button'
 import { dateGenerate } from '../utils/dateGenerate'
 import { observer } from 'mobx-react-lite'
+// import PaginationComponent from '../components/PaginationComponent'
+// import { Context } from '../index'
 
 const TableComponent = observer(({data, category, onDelete, brands}) => {
+  // const {device} = useContext(Context)
   const findBrand = (id) => {
     const brandName = brands.find(i => i.id === id)
     return brandName.name

@@ -9,16 +9,24 @@ import { observer } from 'mobx-react-lite'
 import { Context } from '..'
 import { fetchTypes, fetchDevices, createType, deleteType, createBrand, fetchBrands, deleteBrand } from '../http/deviceAPI'
 import Create from '../components/modals/Create'
+import PaginationComponent from '../components/PaginationComponent'
 
 const AdminPage = observer(() => {
   const {device} = useContext(Context)
 
   useEffect(() => {
-    fetchDevices(null, null, 1, 20).then(data => {
+    fetchDevices(null, null, 1, 9).then(data => {
       device.setDevices(data.rows)
       device.setTotalCount(data.count)
     })
   }, [])
+
+  useEffect(() => {
+    fetchDevices(device.selectedType.id, device.selectedBrand.id, device.page, 9).then(data => {
+      device.setDevices(data.rows)
+      device.setTotalCount(data.count)
+    })
+  }, [device.page, device.selectedType, device.selectedBrand])
 
   const [brandVisible, setBrandVisible] = useState(false)
   const [typeVisible, setTypeVisible] = useState(false)
@@ -108,6 +116,11 @@ const AdminPage = observer(() => {
             data={device.devices}
             brands={device.brands}
           />
+          <PaginationComponent
+            currentPage={device.page}
+            total={device.totalCount}
+            limit={device.limit}
+            onPageChange={(page) => device.setPage(page)} />
           <Button
             variant={'outline-success'}
             className='p-2 mb-3'

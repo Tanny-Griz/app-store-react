@@ -8,7 +8,7 @@ import TypeBar from '../components/TypeBar'
 import { observer } from 'mobx-react-lite'
 import { Context } from '../index'
 import {fetchBrands, fetchDevices, fetchTypes} from '../http/deviceAPI'
-import PagePagination from '../components/PagePagination'
+import PaginationComponent from '../components/PaginationComponent'
 
 const ShopPage = observer(() => {
   const {device} = useContext(Context)
@@ -38,7 +38,11 @@ const ShopPage = observer(() => {
         <Col className='shop-wrapper' md={9}>
           <BrandBar />
           <DeviceList />
-          <PagePagination />
+          <PaginationComponent
+            currentPage={device.page}
+            total={device.totalCount}
+            limit={device.limit}
+            onPageChange={(page) => device.setPage(page)} />
         </Col>
       </Row>
     </Container>
