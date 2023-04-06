@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { Button, Card } from 'react-bootstrap'
 import Col from 'react-bootstrap/esm/Col'
 import Container from 'react-bootstrap/esm/Container'
 import Row from 'react-bootstrap/esm/Row'
@@ -12,33 +13,40 @@ const DevicePage = () => {
     fetchOneDevice(id).then(data => setDevice(data))
   }, [])
 
+  const addToCart = (dev) => {
+    console.log('dev', dev)
+  }
+
   return (
     <Container>
       <Row>
         <Col md={6}>
           <div>
-            <h2>{device.name}</h2>
             <div className='device-page-img-holder'>
               <img src={process.env.REACT_APP_API_URL + device.img} />
             </div>
           </div>
         </Col>
         <Col md={6}>
-          {device.info.length
-            ? <div>
-              <h2 className='text-secondary'>
-              Characteristics:
-              </h2>
-              {device.info.map((info, index) =>
-                <Row key={info.id} style={{background: index % 2 === 0 ? 'lightgray' : 'transparent'}} className='py-2'>
-                  <div>
-                    {info.title} : {info.description}
-                  </div>
-                </Row>
-              )}
-            </div>
-            : ''
-          }
+          <Card className='p-3'>
+            {device.info.length
+              ? <div>
+                <h2 className='text-secondary'>
+                Characteristics:
+                </h2>
+                {device.info.map((info, index) =>
+                  <Row key={info.id} style={{background: index % 2 === 0 ? 'lightgray' : 'transparent'}} className='py-2'>
+                    <div>
+                      {info.title} : {info.description}
+                    </div>
+                  </Row>
+                )}
+              </div>
+              : ''
+            }
+            <h2 className='mb-4'>{device.name}</h2>
+            <Button onClick={() => addToCart(device)} variant="success">Add To Cart</Button>
+          </Card>
         </Col>
       </Row>
     </Container>
