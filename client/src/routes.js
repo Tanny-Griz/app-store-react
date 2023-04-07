@@ -1,7 +1,6 @@
 
 import {
   ADMIN_ROUTE,
-  BASKET_ROUTE,
   DEVICE_ROUTE,
   LOGIN_ROUTE,
   REGISTRATION_ROUTE,
@@ -9,7 +8,6 @@ import {
 } from './utils/consts'
 import AdminPage from './pages/AdminPage'
 import AuthPage from './pages/AuthPage'
-import BasketPage from './pages/BasketPage'
 import DevicePage from './pages/DevicePage'
 import ShopPage from './pages/ShopPage'
 
@@ -17,10 +15,6 @@ export const authRoutes = [
   {
     path: ADMIN_ROUTE,
     Component: AdminPage
-  },
-  {
-    path: BASKET_ROUTE,
-    Component: BasketPage
   }
 ]
 

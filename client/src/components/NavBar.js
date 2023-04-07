@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import { observer } from 'mobx-react-lite'
 import { useNavigate } from 'react-router-dom'
-import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE, BASKET_ROUTE } from '../utils/consts'
+import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts'
 
 const NavBar = observer(() => {
   const {user} = useContext(Context)
@@ -25,7 +25,6 @@ const NavBar = observer(() => {
           {user.isAuth
             ? <Nav className='ms-auto'>
               <div className='nav-btn text-center px-3 py-1' onClick={() => history(ADMIN_ROUTE)}>Admin panel</div>
-              <div className='nav-btn text-center px-3 py-1' onClick={() => history(BASKET_ROUTE)}>Basket</div>
               <div className='nav-btn text-center px-3 py-1' onClick={() => logOut()}>Log out</div>
             </Nav>
             : <Nav className='ms-auto'>
